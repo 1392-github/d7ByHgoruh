@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -35,12 +35,23 @@ public class ChatManager : MonoBehaviour
         if (currentChatElement == -1)
         {
             gameObject.SetActive(false);
-            currentChat.endEvent?.Invoke();
+            if (currentChat.endEvent != -1)
+            {
+                ((Action)GlobalEventManager.events[currentChat.endEvent])();
+            }
             currentChat = null;
             return;
         }
         ChatElement e = currentChat.value[currentChatElement];
-        object[] chatExtra = e.chatEvent?.Invoke() ?? new object[0];
+        object[] chatExtra;
+        if (e.chatEvent == -1)
+        {
+            chatExtra = new object[0];
+        }
+        else
+        {
+            chatExtra = ((Func<object[]>)GlobalEventManager.events[e.chatEvent])();
+        }
         if (e.next == -2)
         {
             nextChatElement = 0;
@@ -66,7 +77,7 @@ public class ChatManager : MonoBehaviour
             Destroy(item2.gameObject);
         }
         chatContentText.text = "";
-        StartCoroutine(Chat(string.Format(e.value, chatExtra), e));
+        StartCoroutine(Chat((e.character == "" ? "" : $"[{(e.character == "S" ? GameData.name : e.character)}] ") + string.Format(e.value, chatExtra), e));
     }
     IEnumerator Chat(string text, ChatElement e)
     {

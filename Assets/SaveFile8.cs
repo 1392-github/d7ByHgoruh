@@ -26,7 +26,7 @@ public class SaveFile8 : SaveFile0
     public bool inclass;
     public bool inschool;
     public bool[] achCompleted;
-    public int[] clas;
+    public int clas;
     public bool duringClassPlacement; // reversed
     public string startClassPlacement;
     public string endClassPlacement; // reversed

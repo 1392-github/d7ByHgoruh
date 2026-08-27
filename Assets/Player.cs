@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public GameObject gradeDoor;
     public TimeSpan blockTime;
     public int blockTimeSpace;
+    [SerializeField] Chat firstClassChat;
     bool left;
     bool right;
     bool up;
@@ -28,7 +29,6 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     GameObject dialog;
     Text dialogText;
-    GameObject classPlaceInput;
     Text classPlaceDDay;
     bool mapInited;
     bool control;
@@ -199,38 +199,6 @@ public class Player : MonoBehaviour
         firstGrade = new string[8];
         repeatGrade = new int[8];
         achGen.Start2();
-        if (GameData.clas[0] == -1)
-        {
-            if (GameData.ExperimentalCheck(Experimental.FRIEND_SYSTEM))
-            {
-                for (int i = 0; i < 330; i++)
-                {
-                    do
-                    {
-                        GameData.clas[i] = Random.Range(0, 10);
-                    } while (GameData.clas.Count(c => c == GameData.clas[i]) > 33);
-                }
-                for (int i = 330; i < 660; i++)
-                {
-                    do
-                    {
-                        GameData.clas[i] = Random.Range(10, 20);
-                    } while (GameData.clas.Count(c => c == GameData.clas[i]) > 33);
-                }
-                for (int i = 660; i < 1000; i++)
-                {
-                    do
-                    {
-                        GameData.clas[i] = Random.Range(20, 30);
-                    } while (GameData.clas.Count(c => c == GameData.clas[i]) > 34);
-                }
-            }
-            else
-            {
-                GameData.clas[0] = Random.Range(0, 10);
-            }
-        }
-        classPlaceInput = canvas.Find("ClassPlaceInput").gameObject;
         classPlaceDDay = canvas.Find("Menu").Find("GetClass").Find("ChangeDDay").GetComponent<Text>();
         //busStopTimeDisplay = canvas.Find("BusStopTime").Find("Scroll View").Find("Viewport").Find("Content").GetComponent<Text>();
         //busStopDropdown = canvas.Find("BusStopTime").Find("Dropdown (Legacy)").GetComponent<Dropdown>();
@@ -509,7 +477,6 @@ public class Player : MonoBehaviour
         }
         if (GetKeyDown(KeyCode.Escape))
         {
-
             menu.SetActive(true);
         }
         if (speed == 0 && cntProblemItem != -1)
@@ -600,7 +567,7 @@ public class Player : MonoBehaviour
     {
         if (GameData.weekend) return;
         GameData.inClass = true;
-        if (GameData.currentScene == "Classroom" && GameData.mapArgs == GameData.clas[0])
+        if (GameData.currentScene == "Classroom" && GameData.mapArgs == GameData.clas)
         {
             if (GameData.tutorial && GameData.time.Date == new DateTime(2024, 3, 5) && GameData.schedule == 0)
             {
@@ -679,15 +646,7 @@ public class Player : MonoBehaviour
             {
                 GameData.startClassPlacement -= new TimeSpan(1, 0, 0, 0);
             }
-            if (GameData.ExperimentalCheck(Experimental.FRIEND_SYSTEM))
-            {
-                classPlaceInput.SetActive(true);
-                GameData.timeSpeed = TimeSpan.Zero;
-            }
-            else
-            {
-                GameData.clas[0] = Random.Range(0, 10);
-            }
+            GameData.clas = Random.Range(0, 10);
         }
         TutorialOpenChat(4);
     }
@@ -727,10 +686,10 @@ public class Player : MonoBehaviour
         if (name == "Main1F")
         {
             GiveAch(0);
-        }
-        if (name == "Main1F")
-        {
-            TutorialOpenChat(2);
+            if (GameData.time < GameData.firstDay.AddHours(1))
+            {
+                ChatManager.OpenChat(firstClassChat);
+            }
         }
         if (name == "Shop")
         {
@@ -774,7 +733,7 @@ public class Player : MonoBehaviour
                     Door door2 = door.GetComponent<Door>();
                     door2.args = GameData.mapArgs * 10 + i;
                     door2.doorID = door2.args;
-                    if (GameData.mapArgs == 0 && i == GameData.clas[0])
+                    if (GameData.mapArgs == 0 && i == GameData.clas)
                     {
                         door.transform.Find("Text").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
                     }
@@ -784,7 +743,7 @@ public class Player : MonoBehaviour
                     door2 = door.GetComponent<Door>();
                     door2.args = GameData.mapArgs * 10 + i;
                     door2.doorID = door2.args + 100;
-                    if (GameData.mapArgs == 0 && i == GameData.clas[0])
+                    if (GameData.mapArgs == 0 && i == GameData.clas)
                     {
                         door.transform.Find("Text").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
                     }
@@ -800,7 +759,7 @@ public class Player : MonoBehaviour
                     Door door2 = door.transform.Find("Door (2)").GetComponent<Door>();
                     door2.args = GameData.mapArgs * 10 + i;
                     door2.doorID = door2.args;
-                    if (GameData.mapArgs == 0 && i == GameData.clas[0])
+                    if (GameData.mapArgs == 0 && i == GameData.clas)
                     {
                         door.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().fontStyle = FontStyles.Bold;
                     }
@@ -837,7 +796,7 @@ public class Player : MonoBehaviour
             {
                 GameObject.Find("EasterEgg").SetActive(false);
             }*/
-            if (GameData.mapArgs == GameData.clas[0] && GameData.inSchool)
+            if (GameData.mapArgs == GameData.clas && GameData.inSchool)
             {
                 GameData.timeSpeed = new TimeSpan(0, 10, 0);
             }
@@ -1133,7 +1092,7 @@ public class Player : MonoBehaviour
             OpenDialog("이미 종료된 게임입니다");
             return;
         }
-        if (GameData.items[GameData.inventory[id]].use?.Invoke() ?? false)
+        if (((Func<bool>)GlobalEventManager.events[GameData.items[GameData.inventory[id]].use])())
         {
             GameData.inventory.RemoveAt(id);
         }
@@ -1160,7 +1119,14 @@ public class Player : MonoBehaviour
             Transform b = Instantiate(buyItemContent).transform;
             b.SetParent(buyItemDisplay, false);
             b.Find("Name").GetComponent<Text>().text = $"{d.name} ({d.cost}원)";
-            b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, d.descExt?.Invoke() ?? new object[0]);
+            if (d.descExt == -1)
+            {
+                b.Find("Desc").GetComponent<Text>().text = d.desc;
+            }
+            else
+            {
+                b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, ((Func<object[]>)GlobalEventManager.events[d.descExt])());
+            }
             int i2 = i;
             b.Find("BuyButton").GetComponent<Button>().onClick.AddListener(() => BuyItem(i2));
         }
@@ -1366,7 +1332,7 @@ public class Player : MonoBehaviour
     }
     public void ChatExtra1()
     {
-        chatExtra = new object[] { GameData.clas[0] + 1};
+        chatExtra = new object[] { GameData.clas + 1};
     }
     public void TutorialEvent1()
     {

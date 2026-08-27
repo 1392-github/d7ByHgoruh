@@ -7,6 +7,7 @@ public class HomeGameManager : MonoBehaviour
 {
     [SerializeField] HomeUIManager uiManager;
     [SerializeField] QuestPreview questPreview;
+    [SerializeField] Chat startChat;
     void Start()
     {
         if (GameData.nextDayOnHome)
@@ -37,6 +38,10 @@ public class HomeGameManager : MonoBehaviour
             StartDay();
             uiManager.UpdateTimeUI();
             return;
+        }
+        if (GameData.time == GameData.firstDay)
+        {
+            ChatManager.OpenChat(startChat);
         }
         DayOfWeek dayOfWeek = GameData.time.DayOfWeek;
         if (GameData.time.Hour < 8) GameData.weekend = dayOfWeek == DayOfWeek.Sunday || dayOfWeek == DayOfWeek.Monday;

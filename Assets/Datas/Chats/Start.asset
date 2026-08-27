@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de2a110b994c2747b95b909036604a0, type: 3}
+  m_Name: Start
+  m_EditorClassIdentifier: 
+  name: "\uCCAB \uB4F1\uAD50"
+  value:
+  - value: "\uB098\uB294 {0}\uC758 {1}!"
+    character: S
+    next: 0
+    chatEvent: 60
+    option: []
+    disableNext: 0
+  - value: "\uC624\uB298 \uB4DC\uB514\uC5B4 \uCCAB \uB4F1\uAD50\uC774\uB2E4!"
+    character: S
+    next: 0
+    chatEvent: -1
+    option: []
+    disableNext: 0
+  - value: "(\uC624\uB978\uCABD \uC544\uB798\uC758 [\uC678\uCD9C] \uBC84\uD2BC\uC744
+      \uB204\uB978 \uD6C4 \uD559\uAD50\uB85C \uAC00\uC138\uC694)"
+    character: 
+    next: 0
+    chatEvent: -1
+    option: []
+    disableNext: 0
+  endEvent: -1

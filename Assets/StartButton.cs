@@ -52,7 +52,7 @@ public class StartButton : MonoBehaviour
         //}
         //else
         //{
-            defaultSave.clas = new int[] {-1};
+            defaultSave.clas = -1;
         //}
         defaultSave.startTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         //if (length.text != "")

@@ -21,16 +21,11 @@ public class TitleManager : MonoBehaviour
         {
             GameData.init = true;
             GameData.items = items.items;
-            for (int i = 0; i < 50; i++)
-            {
-                int i2 = i;
-                GameData.items[i].descExt = () => ItemScripts.Item1Desc(i2 % 10 + 1);
-                GameData.items[i].use = () => ItemScripts.UseItem1(i2);
-            }
             GameData.statTypes = stats.stats;
             GameData.statTypes[0].onUpgrade = StatOnUpgradeScripts.OnStudyUpgrade;
             //GameData.statTypes[4].onUpgrade = StatOnUpgradeScripts.OnQuestMaxUpgrade;
             //GameData.statTypes[5].onUpgrade = StatOnUpgradeScripts.OnQuestTimeUpgrade;
+            GlobalEventManager.Register();
             GameData.curriculum = curriculum;
             GameData.type1Exams = type1Exams.exams;
             GameData.suneungDays = suneungDays;

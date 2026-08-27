@@ -8,6 +8,5 @@ public class Data : MonoBehaviour
     public List<string> achievementGrade;
     public List<int> friendableStudent;
     //public List<Wrap<List<Problem>>> problem;
-    public List<Chat> chat;
     public List<TutorialUI> tutorialUI;
 }

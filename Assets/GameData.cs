@@ -23,7 +23,7 @@ public static class GameData
     public static long[] studyExp;
     public static int schedule;
     public static bool[] achCompleted;
-    public static int[] clas;
+    public static int clas;
     public static bool duringClassPlacement;
     public static DateTime startClassPlacement;
     public static DateTime endClassPlacement;

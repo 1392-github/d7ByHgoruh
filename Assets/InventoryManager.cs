@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,14 +25,21 @@ public class InventoryManager : MonoBehaviour
             b.SetParent(transform, false);
             Item d = GameData.items[GameData.inventory[i]];
             b.Find("Name").GetComponent<Text>().text = d.name;
-            b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, d.descExt?.Invoke() ?? new object[0]);
+            if (d.descExt == -1)
+            {
+                b.Find("Desc").GetComponent<Text>().text = d.desc;
+            }
+            else
+            {
+                b.Find("Desc").GetComponent<Text>().text = string.Format(d.desc, ((Func<object[]>)GlobalEventManager.events[d.descExt])());
+            }
             int i2 = i;
             b.Find("UseButton").GetComponent<Button>().onClick.AddListener(() => UseItem(i2));
         }
     }
     public void UseItem(int id)
     {
-        if (GameData.items[GameData.inventory[id]].use?.Invoke() ?? false)
+        if (((Func<bool>)GlobalEventManager.events[GameData.items[GameData.inventory[id]].use])())
         {
             GameData.inventory.RemoveAt(id);
         }

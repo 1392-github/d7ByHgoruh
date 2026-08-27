@@ -3393,6 +3393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiManager: {fileID: 18011690}
   questPreview: {fileID: 765781771}
+  startChat: {fileID: 11400000, guid: 8f58708d56cedde4b853d39c001bd3e5, type: 2}
 --- !u!1 &839584558
 GameObject:
   m_ObjectHideFlags: 0

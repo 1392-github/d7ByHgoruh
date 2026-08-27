@@ -4,11 +4,11 @@ using UnityEngine;
 [System.Serializable]
 public class ChatElement
 {
-    //public string character;
     [TextArea(10, 10)]
     public string value;
+    public string character;
     public int next;
-    public Func<object[]> chatEvent;
+    public int chatEvent = -1;
     public List<NameAndVal<int>> option;
     public bool disableNext;
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Random = UnityEngine.Random;
 
 public class IntroController : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class IntroController : MonoBehaviour
     }
     IEnumerator TypeText(string text, float delay = 0.1f)
     {
-        yield return StartCoroutine(Util.TypeText(text, this.text, source));
+        yield return StartCoroutine(Util.TypeText(text, this.text, source, delay));
     }
     // 호출 후 yield return new WaitUntil(() => inputCompleted); 을 호출할 것
     void InputText(string placeholder)
@@ -92,6 +93,7 @@ public class IntroController : MonoBehaviour
         GameData.school = schoolName;
         GameData.birth = birth;
         GameData.nextDayOnHome = true;
+        GameData.clas = Random.Range(0, 10);
         ExamManager.type1Exam = new ExamScore[GameData.type1Exams.Length];
         ExamManager.type2Exam = new ExamScore[GameData.curriculum.type2Exam.Length];
         GameData.Load2();
