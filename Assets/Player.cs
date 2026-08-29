@@ -635,19 +635,6 @@ public class Player : MonoBehaviour
         GameData.inClass = false;
         GameData.inSchool = false;
         ExamManager.Exam();
-        if (GameData.time.Date == GameData.startClassPlacement)
-        {
-            GameData.duringClassPlacement = true;
-            GameData.endClassPlacement = GameData.startClassPlacement + new TimeSpan(3, 0, 0, 0);
-            int y = GameData.time.Month == 12 ? GameData. time.Year + 1 : GameData.time.Year;
-            int m = GameData.time.Month == 12 ? 1 : GameData.time.Month + 1;
-            GameData.startClassPlacement = new DateTime(y, m, DateTime.DaysInMonth(y, m));
-            while (GameData.startClassPlacement.DayOfWeek != DayOfWeek.Friday)
-            {
-                GameData.startClassPlacement -= new TimeSpan(1, 0, 0, 0);
-            }
-            GameData.clas = Random.Range(0, 10);
-        }
         TutorialOpenChat(4);
     }
     public void GiveExp(long amount, bool msg = true)
@@ -982,16 +969,7 @@ public class Player : MonoBehaviour
         GameData.achCompleted[id] = true;
         achGen.AchRegen();
     }
-    public void UpdateDDay()
-    {
-        classPlaceDDay.text = $"다음 반배정 : {GameData.startClassPlacement:yyyy-MM-dd} (D-{(GameData.startClassPlacement - GameData.time.Date).TotalDays})";
-        //LoadBusTime();
-        if (GameData.tutorial && GameData.currentScene == "Unnamed3")
-        {
-            GameObject.Find("Door").GetComponent<Door>().enable = true;
-            TutorialOpenChat(6);
-        }
-    }
+    public void UpdateDDay() {}
     /*void ChangeBusStopTime()
     {
         busStopTime.Clear();

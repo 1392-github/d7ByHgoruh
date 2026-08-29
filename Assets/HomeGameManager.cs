@@ -59,10 +59,6 @@ public class HomeGameManager : MonoBehaviour
             GameData.timeSpeed = new TimeSpan(0, 0, 0);
         }
         GameData.schedule = 0;
-        if (GameData.time.Date == GameData.endClassPlacement)
-        {
-            GameData.duringClassPlacement = false;
-        }
         for (int i = GameData.quest.Count - 1; i >= 0; i--)
         {
             Quest q = GameData.quest[i];

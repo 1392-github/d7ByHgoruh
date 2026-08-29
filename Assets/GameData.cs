@@ -24,9 +24,6 @@ public static class GameData
     public static int schedule;
     public static bool[] achCompleted;
     public static int clas;
-    public static bool duringClassPlacement;
-    public static DateTime startClassPlacement;
-    public static DateTime endClassPlacement;
     public static List<int> inventory;
     public static int[] stat;
     public static List<Experimental> experimental;
@@ -115,9 +112,6 @@ public static class GameData
         clas = save.clas;
         inventory = save.inventory;
         achCompleted = save.achCompleted;
-        duringClassPlacement = save.duringClassPlacement;
-        startClassPlacement = DateTime.ParseExact(save.startClassPlacement, "yyyy-MM-dd", null);
-        endClassPlacement = DateTime.ParseExact(save.endClassPlacement, "yyyy-MM-dd", null);
         experimental = save.experimental;
         currentScene = save.map;
         mapArgs = save.mapextra;
@@ -230,9 +224,6 @@ public static class GameData
         save.inschool = inSchool;
         save.achCompleted = achCompleted;
         save.clas = clas;
-        save.duringClassPlacement = duringClassPlacement;
-        save.startClassPlacement = startClassPlacement.ToString("yyyy-MM-dd");
-        save.endClassPlacement = endClassPlacement.ToString("yyyy-MM-dd");
         save.inventory = inventory;
         save.stat = stat;
         save.experimental = experimental;
