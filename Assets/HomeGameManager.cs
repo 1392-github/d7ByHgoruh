@@ -56,7 +56,7 @@ public class HomeGameManager : MonoBehaviour
         {
             GameData.inSchool = true;
             uiManager.nextDayButton.interactable = false;
-            GameData.timeSpeed = new TimeSpan(0, 1, 0);
+            GameData.timeSpeed = new TimeSpan(0, 0, 0);
         }
         GameData.schedule = 0;
         if (GameData.time.Date == GameData.endClassPlacement)

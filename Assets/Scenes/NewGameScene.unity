@@ -452,7 +452,7 @@ MonoBehaviour:
     version: 8
     versionName: 21
     time: 0001-01-01 00:00:00
-    timeSpeed: 00:01:00
+    timeSpeed: 00:00:00
     introCompleted: 0
     name: 
     school: 
@@ -472,7 +472,7 @@ MonoBehaviour:
     inclass: 0
     inschool: 1
     achCompleted: 
-    clas: 
+    clas: 0
     duringClassPlacement: 0
     startClassPlacement: 2024-03-29
     endClassPlacement: 2024-04-01

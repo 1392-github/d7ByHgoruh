@@ -801,6 +801,10 @@ public class Player : MonoBehaviour
                 GameData.timeSpeed = new TimeSpan(0, 10, 0);
             }
         }
+        if (GameData.currentScene == "Hub")
+        {
+            GameObject.Find("block").SetActive(GameData.inSchool);
+        }
         //if (currentScene == "Dormitory1F")
         //{
             //GameObject.Find("Square (4)").GetComponent<OpenGUIButton>().target = canvas.Find("PC").gameObject;
